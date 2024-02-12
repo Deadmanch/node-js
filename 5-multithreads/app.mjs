@@ -31,10 +31,9 @@ const calc = async arr => {
 		});
 		Promise.all(promises)
 			.then(res => {
-				const total = res.reduce((acc, curr) => acc + curr, 0);
 				performance.mark('calc end');
 				performance.measure('calc', 'calc start', 'calc end');
-				resolve(total);
+				resolve(res);
 			})
 			.catch(err => {
 				reject(err);
