@@ -3,7 +3,7 @@ import { performance, PerformanceObserver } from 'perf_hooks';
 import { Worker } from 'worker_threads';
 import { createArr, splitArray } from './calc.mjs';
 const numCores = cpus().length;
-const arr = createArr(300000);
+const arr = createArr(105000000);
 const performanceObserver = new PerformanceObserver(items => {
 	items.getEntries().forEach(entry => {
 		console.log(`${entry.name}: ${entry.duration}`);
@@ -50,6 +50,7 @@ const basicCalc = arr => {
 		worker.on('message', msg => {
 			performance.mark('basicCalc end');
 			performance.measure('basicCalc', 'basicCalc start', 'basicCalc end');
+			resolve(msg);
 		});
 		worker.on('error', err => {
 			reject(err);
