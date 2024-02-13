@@ -41,20 +41,10 @@ const calc = async arr => {
 	});
 };
 const basicCalc = arr => {
-	return new Promise((resolve, reject) => {
-		performance.mark('basicCalc start');
-		const worker = new Worker('./worker.mjs', {
-			workerData: arr,
-		});
-		worker.on('message', msg => {
-			performance.mark('basicCalc end');
-			performance.measure('basicCalc', 'basicCalc start', 'basicCalc end');
-			resolve(msg);
-		});
-		worker.on('error', err => {
-			reject(err);
-		});
-	});
+	performance.mark('basicCalc start');
+	remainderArr(arr);
+	performance.mark('basicCalc end');
+	performance.measure('basicCalc', 'basicCalc start', 'basicCalc end');
 };
 const main = async () => {
 	try {
