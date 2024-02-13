@@ -1,7 +1,7 @@
 import { cpus } from 'os';
 import { performance, PerformanceObserver } from 'perf_hooks';
 import { Worker } from 'worker_threads';
-import { createArr, splitArray } from './calc.mjs';
+import { createArr, remainderArr, splitArray } from './calc.mjs';
 const numCores = cpus().length;
 const arr = createArr(105000000);
 const performanceObserver = new PerformanceObserver(items => {
