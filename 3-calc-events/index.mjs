@@ -4,13 +4,21 @@ const calcEmitter = new EventEmitter();
 calcEmitter.on('result', res => {
 	console.log(res);
 });
+const args = process.argv.slice(2);
+const [firstNum, secondNum, operation] = args;
 
-Object.entries(operations).map(([key, operation]) => {
-	calcEmitter.on(key, (firstNum, secondNum) => {
-		calcEmitter.emit('result', operation(firstNum, secondNum));
+if (!operations[operation]) {
+	throw new Error(
+		`Вы ввели неверную операцию - ${operation}. Введите одну из операций - ${Object.keys(operations).join(', ')}`
+	);
+} else if (isNaN(firstNum) || isNaN(secondNum)) {
+	throw new Error('Вы ввели не число! Введите пожалуйста число');
+} else {
+	Object.keys(operations).forEach(operation => {
+		calcEmitter.on(operation, (firstNum, secondNum) => {
+			calcEmitter.emit('result', operations[operation](firstNum, secondNum));
+		});
 	});
-});
 
-calcEmitter.emit('add', '33', 6);
-calcEmitter.emit('divide', 36, 6);
-calcEmitter.emit('multiply', 2, 6);
+	calcEmitter.emit(operation, parseInt(firstNum), parseInt(secondNum));
+}
