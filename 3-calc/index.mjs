@@ -16,7 +16,7 @@ if (!operations[operation]) {
 	throw new Error(
 		`Вы ввели неверную операцию - ${operation}. Введите одну из операций - ${Object.keys(operations).join(', ')}`
 	);
-} else if (isNaN(firstNum) || isNaN(secondNum)) {
+} else if (!(parseInt(firstNum) && parseInt(secondNum))) {
 	throw new Error('Вы ввели не число! Введите пожалуйста число');
 } else {
 	console.log(`Результат операции ${operation}: ${operations[operation](parseInt(firstNum), parseInt(secondNum))}`);
