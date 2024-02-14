@@ -1,60 +1,20 @@
-const timeUnits = new Map([
-	['ч', 'h'],
-	['час', 'h'],
-	['часа', 'h'],
-	['м', 'm'],
-	['мин', 'm'],
-	['минут', 'm'],
-	['минуты', 'm'],
-	['с', 's'],
-	['сек', 's'],
-	['секунд', 's'],
-	['секунды', 's'],
-	['h', 'h'],
-	['m', 'm'],
-	['s', 's'],
-]);
-
-const parseTime = timeArgs => {
-	const regex = /(\d+)\s*(h|ч|м|s|с)/g;
-	let match;
-	let timeInMilliseconds = 0;
-
-	if (!regex.test(timeArgs)) {
-		throw new Error('Неверный формат. Пожалуйста используйте формат - "1ч 5минут 10с" или "1h 5m 10s"');
+const args = process.argv.slice(2);
+function startTimer(callTime) {
+	if (!callTime || !callTime.match(/^(\d+[hms] )*(\d+[hms])$/)) {
+		throw new Error('Вы не ввели данные или ввели их в неверном формате, используйте формат 1h 5m 2s');
 	}
-	regex.lastIndex = 0;
-	while ((match = regex.exec(timeArgs)) !== null) {
-		const value = parseInt(match[1]);
-		const timeUnit = timeUnits.get(match[2]);
-
-		switch (timeUnit) {
-			case 'h':
-				timeInMilliseconds += value * 60 * 60 * 1000;
-				break;
-			case 'm':
-				timeInMilliseconds += value * 60 * 1000;
-				break;
-			case 's':
-				timeInMilliseconds += value * 1000;
-				break;
-			default:
-				break;
+	const seconds = callTime.split(' ').reduce((total, item) => {
+		if (item) {
+			const value = parseInt(item);
+			const multiplier = item.includes('h') ? 3600 : item.includes('m') ? 60 : 1;
+			total += value * multiplier;
 		}
-	}
-	return timeInMilliseconds;
-};
+		return total;
+	}, 0);
 
-const startTimer = timeArgs => {
-	const timeInMilliseconds = parseTime(timeArgs);
-	console.log(`Bomb has been planted: ${timeArgs}`);
-
+	console.log(`Bomb has been planted: ${callTime}`);
 	setTimeout(() => {
-		console.log('BOOM!');
-	}, timeInMilliseconds);
-};
-
-const timeArg = '5 s';
-const timeArg2 = '2секунды';
-startTimer(timeArg);
-startTimer(timeArg2);
+		console.log('Boom');
+	}, seconds * 1000);
+}
+startTimer(args.join(' '));
