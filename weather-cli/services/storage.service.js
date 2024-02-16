@@ -3,6 +3,11 @@ import { homedir } from 'os';
 import { join } from 'path';
 
 const filePath = join(homedir(), 'weather-data.json');
+
+const TOKEN_DICTIONARY = {
+	token: 'token',
+	city: 'city',
+};
 const saveKeyValue = async (key, value) => {
 	let data = {};
 	if (await isExist(filePath)) {
@@ -30,4 +35,4 @@ const isExist = async path => {
 		return false;
 	}
 };
-export { getKeyValue, saveKeyValue };
+export { TOKEN_DICTIONARY, getKeyValue, saveKeyValue };
