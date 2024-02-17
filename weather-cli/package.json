@@ -1,5 +1,5 @@
 {
-	"name": "weather-cli",
+	"name": "weather-cli-demo-simple",
 	"version": "1.0.0",
 	"description": "Weather Cli",
 	"main": "weather.js.",
@@ -8,6 +8,7 @@
 	},
 	"type": "module",
 	"scripts": {
+		"start": "node weather.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "Dan Stepanov",
