@@ -1,58 +1,52 @@
 #!/usr/bin/env node
 
+import { LANGUAGE, STORAGE_KEYS } from './global/storage-keys.js';
 import { getArgs } from './helpers/args.js';
 import { getIcon, getWeather } from './services/api.service.js';
-import { printError, printHelp, printSuccess, printWeather } from './services/log.service.js';
-import { TOKEN_DICTIONARY, getKeyValue, saveKeyValue } from './services/storage.service.js';
-const saveCity = async city => {
-	if (!city.length) {
-		printError('Не передан город');
-		return;
-	}
-	try {
-		await saveKeyValue(TOKEN_DICTIONARY.city, city);
-		printSuccess('Город сохранен');
-	} catch (e) {
-		printError(e.message);
-	}
-};
-const saveToken = async token => {
-	if (!token.length) {
-		printError('Не передан токен');
-		return;
-	}
-	try {
-		await saveKeyValue(TOKEN_DICTIONARY.token, token);
-		printSuccess('Токен сохранен');
-	} catch (e) {
-		printError(e.message);
-	}
-};
+import { addCity, deleteCity, saveLanguage, saveToken } from './services/config.service.js';
+import { LogService } from './services/log.service.js';
+import { getKeyValue } from './services/storage.service.js';
+
 const getForecast = async () => {
 	try {
-		const city = process.env.CITY ?? (await getKeyValue(TOKEN_DICTIONARY.city));
-		const weather = await getWeather(city);
-		printWeather(weather, getIcon(weather.weather[0].icon));
+		const token = await getKeyValue(STORAGE_KEYS.token);
+		const language = (await getKeyValue(STORAGE_KEYS.language)) || LANGUAGE.russian;
+		const city = await getKeyValue(STORAGE_KEYS.city);
+		if (!city || !token || !language) {
+			LogService.error(`Не указан токен, город или язык`);
+			return;
+		}
+		const cities = city.split(', ');
+		for (const city of cities) {
+			const weather = await getWeather(city, token, language);
+			LogService.printWeather(weather, getIcon(weather.weather[0].icon), language);
+		}
 	} catch (e) {
 		if (e?.response?.status === 404) {
-			printError('Неверно указан город');
+			LogService.error(`Неверно указан город`);
 		} else if (e?.response?.status === 401) {
-			printError('Неверно указан токен');
+			LogService.error('Неверно указан токен');
 		} else {
-			printError(e.message);
+			LogService.error(e.message);
 		}
 	}
 };
 const initCLI = () => {
 	const args = getArgs(process.argv);
 	if (args.h) {
-		return printHelp();
+		return LogService.printHelp();
 	}
 	if (args.s) {
-		return saveCity(args.s);
+		return addCity(args.s);
+	}
+	if (args.del) {
+		return deleteCity(args.del);
 	}
 	if (args.t) {
 		return saveToken(args.t);
+	}
+	if (args.l) {
+		return saveLanguage(args.l);
 	}
 	return getForecast();
 };

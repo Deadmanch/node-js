@@ -8,3 +8,5 @@ const LANGUAGE = {
 	russian: 'ru',
 	english: 'eng',
 };
+
+export { LANGUAGE, STORAGE_KEYS };
