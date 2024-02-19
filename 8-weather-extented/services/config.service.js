@@ -2,25 +2,26 @@ import { STORAGE_KEYS } from '../global/storage-keys.js';
 import { LogService } from './log.service.js';
 import { getKeyValue, saveKeyValue } from './storage.service.js';
 
-const addCity = async city => {
-	if (!city.length) {
+const addCity = async cityString => {
+	if (!cityString.length) {
 		LogService.error('Не передан город');
 		return;
 	}
+	const newCities = cityString.split(', ').map(city => city.trim());
 	try {
 		let cities = await getKeyValue(STORAGE_KEYS.city);
+		let citySet = new Set();
 		if (!cities) {
 			cities = city;
 		} else {
-			const cityList = cities.split(', ');
-			if (cityList.includes(city)) {
-				LogService.error(`Город ${city} уже есть в списке`);
-				return;
-			}
-			cities += `, ${city}`;
+			citySet = new Set(cities.split(', '));
 		}
+		newCities.forEach(city => {
+			citySet.add(city);
+		});
+		cities = [...citySet].join(', ');
 		await saveKeyValue(STORAGE_KEYS.city, cities);
-		LogService.success(`Город ${city} успешно добавлен в список`);
+		LogService.success(`Город ${cityString} успешно добавлен в список`);
 	} catch (e) {
 		LogService.error(e.message);
 	}
