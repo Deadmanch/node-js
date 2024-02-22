@@ -1,0 +1,126 @@
+.popup {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background: var(--color-primary);
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+form {
+	padding: 35px;
+	border-radius: 10px;
+	background: var(--color-bg-light);
+	width: 550px;
+	min-height: 500px;
+	box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 25px;
+	position: relative;
+}
+& h2 {
+	font-weight: 700;
+	font-size: 25px;
+	color: var(--color-text-dark);
+	margin-bottom: 32px;
+}
+.close-form {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	& svg {
+		width: 16px;
+		height: 16px;
+		margin: unset;
+		cursor: pointer;
+	}
+	& svg:hover > path {
+		stroke: #ff0000;
+	}
+}
+button[type='submit'] {
+	margin-top: 60px;
+	border-radius: 20px;
+	width: 100%;
+}
+input,
+select,
+textarea {
+	width: 100%;
+	color: var(--color-text-dark);
+	background: var(--color-text);
+
+	/* Body 16 120% */
+	font-family: 'Nunito', sans-serif;
+	font-size: 16px;
+	font-weight: 500;
+	padding: 0;
+	border: 0;
+	resize: none;
+	line-height: 150%; /* 24px */
+	&:focus {
+		outline: none;
+	}
+	&::placeholder {
+		font-weight: 500;
+		font-size: 16px;
+		color: var(--color-text-light);
+	}
+}
+input {
+	&:focus {
+		transform: translateX(10px);
+	}
+	transition: 0.5s transform;
+}
+select {
+	appearance: none;
+	-webkit-appearance: none;
+}
+select:active,
+select:focus {
+	outline: none;
+}
+option {
+	padding: 4px;
+	&:focus,
+	&:hover {
+		outline: none;
+		border: transparent;
+	}
+}
+.form__item {
+	border-radius: 20px;
+	background: var(--color-text);
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	width: 100%;
+	& img {
+		width: 24px;
+		height: 24px;
+	}
+}
+.form__content {
+	text-align: start;
+	margin: 12px 12px 12px 0;
+	width: 100%;
+	label {
+		color: var(--gray, #afb2bf);
+		font-family: Fira Sans;
+		font-size: 12px;
+	}
+}
+.form__content-text {
+	margin: 12px 24px;
+	height: 111px;
+}
+.hidden {
+	display: none;
+}

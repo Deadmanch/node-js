@@ -1,0 +1,12 @@
+.header {
+	background-color: var(--color-header);
+	padding: 10px;
+}
+.header__wrapper {
+	max-width: var(--layout-width);
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	color: var(--color-text);
+}

@@ -1,0 +1,104 @@
+.content__block {
+	padding: 20px;
+	border-radius: 20px;
+	max-width: 500px;
+	width: 100%;
+	min-height: 237px;
+	background: var(--color-bg-light);
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	& h2 {
+		font-weight: 700;
+		font-size: 25px;
+		text-align: center;
+		color: var(--color-text-dark);
+	}
+}
+.content__block-bottom {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	gap: 50px;
+	& img {
+		width: 130px;
+		height: 130px;
+	}
+}
+.content__block-info {
+	font-weight: 500;
+	font-size: 16px;
+	color: var(--color-text-dark);
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+.content__block-temp {
+	font-weight: 700;
+	font-size: 40px;
+	text-align: center;
+}
+.content__block-feels > span {
+	color: var(--color-secondary);
+}
+.title {
+	font-weight: 700;
+	font-size: 40px;
+	color: var(--color-text);
+}
+.weather {
+	margin: 12px 0;
+	color: var(--color-text-dark);
+	&:not(&:first-child) {
+		border-top: 1px solid var(--color-text-dark);
+	}
+	&:last-child {
+		margin-bottom: none;
+	}
+}
+
+.loader {
+	width: 50px;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: radial-gradient(farthest-side, var(--color-primary) 92%, transparent) top/8px 8px no-repeat,
+		conic-gradient(transparent 30%, var(--color-primary));
+	mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
+	animation: l13 1s infinite linear;
+}
+.loader {
+	position: absolute;
+	top: 60%;
+	left: 50%;
+	z-index: 100;
+}
+@keyframes l13 {
+	100% {
+		transform: rotate(1turn);
+	}
+}
+
+button,
+.button {
+	cursor: pointer;
+	border-radius: 20px;
+	background: var(--color-primary);
+	display: flex;
+	justify-content: center;
+	padding: 12px 30px;
+	color: var(--color-text);
+	border: 0;
+	transition: all 0.5s;
+	/* Button */
+	font-family: 'Nunito', sans-serif;
+	font-size: 18px;
+}
+button:hover,
+.button:hover {
+	background: var(--color-secondary);
+}
+button:active,
+.button:active {
+	background: var(--color-secondary);
+}
