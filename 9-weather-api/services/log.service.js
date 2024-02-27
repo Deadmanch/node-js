@@ -1,35 +1,31 @@
-import { LANGUAGE } from '../global/storage-keys.js';
+import { LANGUAGE } from '../global/enums.js';
+const icons = {
+	'01': './img/weather-icon/clear-day.svg',
+	'02': './img/weather-icon/partly-cloudy-day.svg',
+	'03': './img/weather-icon/cloudy.svg',
+	'04': './img/weather-icon/cloudy.svg',
+	'09': './img/weather-icon/heavy-showers.svg',
+	10: './img/weather-icon/heavy-showers.svg',
+	11: './img/weather-icon/thunderstorm-showers.svg',
+	13: './img/weather-icon/snow.svg',
+	50: './img/weather-icon/windy.svg',
+};
 
 class LogService {
-	static printWeather(res, icon, lang) {
-		const { name, main, wind } = res;
-		const templates = {
-			[LANGUAGE.russian]: `<div class="content__block-wrapper">
-					<h2>Погода в городе ${name}</h2>
-					<div class="content__block-bottom">
-						<img class="content__block-img" src="${icon}" alt="Иконка погоды" />
-						<div class="content__block-info">
-							<div class="content__block-temp">${Math.floor(main.temp)}°</div>
-							<div class="content__block-feels">Ощущается: <span>${Math.floor(main.feels_like)}°</span></div>
-							<div class="content__block-feels">Влажность: ${Math.floor(main.humidity)}%</div>
-							<div class="content__block-feels">Ветер: ${Math.floor(wind.speed)}м/c</div>
-						</div>
-					</div>
-				</div>`,
-			[LANGUAGE.english]: `<div class="content__block-wrapper">
-					<h2>Weather in the city ${name}</h2>
-					<div class="content__block-bottom">
-						<img class="content__block-img" src="${icon}" alt="Иконка погоды" />
-						<div class="content__block-info">
-							<div class="content__block-temp">${Math.floor(main.temp)}°</div>
-							<div class="content__block-feels">Feels like: <span>${Math.floor(main.feels_like)}°</span></div>
-							<div class="content__block-feels">Humidity: ${Math.floor(main.humidity)}%</div>
-							<div class="content__block-feels">Wind speed: ${Math.floor(wind.speed)}m/s</div>
-						</div>
-					</div>
-				</div>`,
+	static getIcon = icon => {
+		return icons[icon.slice(0, -1)];
+	};
+	static printWeather(weatherInfo, icon, lang = [LANGUAGE.russian]) {
+		const { name, main, wind } = weatherInfo;
+		return {
+			cityName: name,
+			temperature: main.temp,
+			feelsLike: main.feels_like,
+			humidity: main.humidity,
+			windSpeed: wind.speed,
+			lang: lang,
+			icon: icon,
 		};
-		return templates[lang];
 	}
 }
 export { LogService };

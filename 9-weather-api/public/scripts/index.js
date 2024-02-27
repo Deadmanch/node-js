@@ -1,5 +1,4 @@
 'use strict';
-
 const page = {
 	popup: document.querySelector('.popup'),
 	content: document.querySelector('.content__block'),
@@ -14,7 +13,7 @@ const createDiv = data => {
 	}
 	const element = document.createElement('div');
 	element.classList.add('javascript', 'weather');
-	element.innerHTML = data?.message;
+	element.innerHTML = data;
 	page.content.append(element);
 };
 const buttonToggleActive = btn => {
@@ -30,8 +29,37 @@ const getWeather = async () => {
 	toggleHiddenElement(page.loader);
 	page.content.innerHTML = '';
 	try {
-		const res = await request('./weather');
-		createDiv(res);
+		const weatherInfo = await request('./weather');
+		let result;
+		if (weatherInfo.message.lang === 'ru') {
+			result = `<div class="content__block-wrapper">
+					<h2>Погода в городе ${weatherInfo.message.cityName}</h2>
+					<div class="content__block-bottom">
+						<img class="content__block-img" src="${weatherInfo.message.icon}" alt="Иконка погоды" />
+						<div class="content__block-info">
+							<div class="content__block-temp">${Math.floor(weatherInfo.message.temperature)}°</div>
+							<div class="content__block-feels">Ощущается: <span>${Math.floor(weatherInfo.message.feelsLike)}°</span></div>
+							<div class="content__block-feels">Влажность: ${Math.floor(weatherInfo.message.humidity)}%</div>
+							<div class="content__block-feels">Ветер: ${Math.floor(weatherInfo.message.windSpeed)}м/c</div>
+						</div>
+					</div>
+				</div>`;
+		} else {
+			result = `<div class="content__block-wrapper">
+					<h2>Weather in the city ${weatherInfo.message.cityName}</h2>
+					<div class="content__block-bottom">
+						<img class="content__block-img" src="${weatherInfo.message.icon}" alt="Иконка погоды" />
+						<div class="content__block-info">
+							<div class="content__block-temp">${Math.floor(weatherInfo.message.temperature)}°</div>
+							<div class="content__block-feels">Feels like: <span>${Math.floor(weatherInfo.message.feelsLike)}°</span></div>
+							<div class="content__block-feels">Humidity: ${Math.floor(weatherInfo.message.humidity)}%</div>
+							<div class="content__block-feels">Wind speed: ${Math.floor(weatherInfo.message.windSpeed)}м/c</div>
+						</div>
+					</div>
+				</div>`;
+		}
+		console.log(result);
+		createDiv(result);
 		toggleHiddenElement(page.loader);
 		buttonToggleActive(page.weatherButton);
 	} catch (e) {
