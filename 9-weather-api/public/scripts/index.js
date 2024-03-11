@@ -53,7 +53,7 @@ const getWeather = async () => {
 							<div class="content__block-temp">${Math.floor(weatherInfo.message.temperature)}°</div>
 							<div class="content__block-feels">Feels like: <span>${Math.floor(weatherInfo.message.feelsLike)}°</span></div>
 							<div class="content__block-feels">Humidity: ${Math.floor(weatherInfo.message.humidity)}%</div>
-							<div class="content__block-feels">Wind speed: ${Math.floor(weatherInfo.message.windSpeed)}м/c</div>
+							<div class="content__block-feels">Wind speed: ${Math.floor(weatherInfo.message.windSpeed)}m/s</div>
 						</div>
 					</div>
 				</div>`;
